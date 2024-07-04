@@ -23,5 +23,5 @@ Erfolgreiche Kursteilnahme erfordert eine aktive Teilnahme und Bearbeitung der e
 
 ### Literatur
 
-- Van Atteveldt, W., Trilling, D., & Calderon, C. A. (2022). [Computational analysis of communication](https://cssbook.net/content/chapter11.html). John Wiley & Sons.
+- Van Atteveldt, W., Trilling, D., & Calderon, C. A. (2022). [Computational analysis of communication](https://cssbook.net/). John Wiley & Sons.
 - Salganik, M. J. (2019). Bit by bit: Social research in the digital age. Princeton University Press.

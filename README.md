@@ -20,3 +20,8 @@ Zur Bearbeitung der Aufgaben werden [R](https://cloud.r-project.org/) (Programmi
 ### Leistungsnachweis
 
 Erfolgreiche Kursteilnahme erfordert eine aktive Teilnahme und Bearbeitung der einzelnen Tutorials. Die Hausarbeit soll eine selbstdurchgeführte Anwendung von CSS-Methoden zu einem Thema nach Wahl sein. Der Schwerpunkt dieser Arbeit wird auf der Datenauswertung liegen. Abgabedatum ist der _01. April 2025_ per E-Mail an [cc(at)soz.uni-frankfurt.de](mailto:cc@soz.uni-frankfurt.de).
+
+### Literatur
+
+- Van Atteveldt, W., Trilling, D., & Calderon, C. A. (2022). [Computational analysis of communication](https://cssbook.net/content/chapter11.html). John Wiley & Sons.
+- Salganik, M. J. (2019). Bit by bit: Social research in the digital age. Princeton University Press.

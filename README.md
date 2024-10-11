@@ -13,7 +13,7 @@ Die Veranstaltung führt in Methoden des überwachten und unüberwachten maschin
 
 ### Kursmaterialien & Software
 
-Folien und Code werden über GitHub bereitgestellt. *Zur Kommunikation tragen sie sich bitte unter [czymara.com/FoPra-mail](https://czymara.com/FoPra-mail) in die Mailingliste für diesen Kurs ein.*
+Folien und Code werden über GitHub bereitgestellt. *Zur Kommunikation tragen sie sich bitte in die [Mailingliste für diesen Kurs](https://dlist.server.uni-frankfurt.de/mailman/listinfo/Czymara-fopra) ein.*
 
 Zur Bearbeitung der Aufgaben werden [R](https://cloud.r-project.org/) (Programmiersprache) und [RStudio](https://www.rstudio.com/products/rstudio/download/) (Entwicklungsumgebung) benötigt. [Dieses Video](https://www.youtube.com/watch?v=lVKMsaWju8w) ist eine Anleitung speziell zum Installieren von R und RStudio. Eine Einführung in R gibt es beispielsweise [hier](https://www.cspoerlein.com/files/rtutorial#prerequisites) und in [unzähligen weiteren Tutorials](https://www.google.com/search?q=r+introduction).
 

@@ -30,7 +30,7 @@ Erfolgreiche Kursteilnahme erfordert eine aktive Teilnahme und Bearbeitung der e
 
 | Session | Date        | Topic                                 | Slides | Tutorials | Solutions | Key packages | Further reading |
 |---------|-------------|---------------------------------------|--------|-----------|-----------|--------------|-----------------|
-| 1       | 17. Okt 24  | Introduction                          | [Slides](https://github.com/czymara/CSS_WS24/blob/main/slides/FoPra_CSS_slides_01.html) | [Tutorial](https://github.com/czymara/CSS_WS24/blob/main/tutorials/FoPra_CSS_tutorial_01.html) | tba         | -            | -               |
+| 1       | 17. Okt 24  | Introduction                          | [Slides](https://github.com/czymara/CSS_WS24/blob/main/slides/FoPra_CSS_slides_01.html) | [Tutorial](https://github.com/czymara/CSS_WS24/blob/main/tutorials/FoPra_CSS_tutorial_01.html) | [Solution](https://github.com/czymara/CSS_WS24/blob/main/tutorials/FoPra_CSS_tutorial_01_solution.html)         | -            | -               |
 | 2       | 24. Okt 24  | Text-As-Data: Preparation             |        |           | -         | [quanteda](https://quanteda.io/st) | [Van Atteveldt et al. (2022): Chapter 10](https://cssbook.net/content/chapter10.html) |
 | 3       | 31. Okt 24  | Text-As-Data: Frequency Analysis      |        |           | -         |              |                  |
 | 4       | 07. Nov 24  | Sentiment Analysis                    |        |           | -         | [tidytext](https://juliasilge.github.io/tidytext/) | [van Atteveldt et al. (2021)](https://www.tandfonline.com/doi/full/10.1080/19312458.2020.1869198) |

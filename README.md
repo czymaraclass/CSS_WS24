@@ -1,4 +1,4 @@
-# Forschungspraktikum I & II: Computational Social Science
+# Computational Social Science
 
 ## Kursbeschreibung
 

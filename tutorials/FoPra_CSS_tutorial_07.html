@@ -333,6 +333,13 @@ distinctness (exclusivity) and interpretability (semantic coherence). A
 good choice for the number of topics typically optimizes both.</p>
 <p>Run the following code and interpret the result. Which number of
 topics would you chose?</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">plot</span>(kresult<span class="sc">$</span>results<span class="sc">$</span>exclus, kresult<span class="sc">$</span>results<span class="sc">$</span>semcoh,</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Semantic Coherence&quot;</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Exclusivity&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">text</span>(kresult<span class="sc">$</span>results<span class="sc">$</span>exclus, kresult<span class="sc">$</span>results<span class="sc">$</span>semcoh, </span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>     <span class="at">labels =</span> kresult<span class="sc">$</span>results<span class="sc">$</span>K, <span class="at">pos =</span> <span class="dv">4</span>)</span></code></pre></div>
 </div>
 <div id="d-evaluate-actual-topics" class="section level3">
 <h3>d) Evaluate Actual Topics</h3>

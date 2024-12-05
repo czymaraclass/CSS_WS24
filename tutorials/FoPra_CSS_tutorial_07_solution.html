@@ -196,11 +196,9 @@ manipulation</li>
 and import it into your R environment. Assign to an object called
 <code>newspaper_data_raw</code>. How many articles are included in the
 dataset? What other variables are included?</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#newspaper_data_raw &lt;- read.csv(&quot;https://raw.githubusercontent.com/mhjabreel/CharCnn_Keras/master/data/ag_news_csv/train.csv&quot;, header = F)</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>newspaper_data_raw <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/mhjabreel/CharCnn_Keras/master/data/ag_news_csv/train.csv&quot;</span>, <span class="at">header =</span> F)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>newspaper_data_raw <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;C:/Users/Christian Czymara/Nextcloud2/teaching/CSS_WS24/tutorials/data/backup/newspapers.csv&quot;</span>, <span class="at">header =</span> F)</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">head</span>(newspaper_data_raw)</span></code></pre></div>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">head</span>(newspaper_data_raw)</span></code></pre></div>
 <pre><code>##   V1                                                                        V2
 ## 1  3                         Wall St. Bears Claw Back Into the Black (Reuters)
 ## 2  3                       Carlyle Looks Toward Commercial Aerospace (Reuters)
@@ -427,7 +425,7 @@ articles of this topic and show their titles (stored in
 <div id="testing-for-differences-across-genres" class="section level2">
 <h2>3. Testing for Differences Across Genres</h2>
 <p>Now we know which topics occur. But how does this differ across the
-four larger genre genres (e. g., World, Sports) provided in the original
+four larger genres (e. g., World, Sports) provided in the original
 dataset?</p>
 <div id="a-estimating-effects" class="section level3">
 <h3>a) Estimating Effects</h3>

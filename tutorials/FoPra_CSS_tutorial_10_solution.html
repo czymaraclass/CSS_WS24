@@ -160,6 +160,30 @@ Uni</a>.</p>
 Gruber’s <a href="https://github.com/JBGruber/LexisNexisTools">LexisNexisTools</a>.
 The further prepare the data, we will work with <code>dplyr</code> and
 <code>quanteda</code>. Install and load these packages.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="st">&quot;LexisNexisTools&quot;</span>, <span class="co"># Importing and parsing Nexis data</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="st">&quot;quanteda&quot;</span>,        <span class="co"># Text analysis</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="st">&quot;dplyr&quot;</span>            <span class="co"># Data manipulation</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  )</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># install if necessary</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">setdiff</span>(packages, <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())))  </span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># load</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="fu">lapply</span>(packages, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;LexisNexisTools&quot; &quot;stats&quot;           &quot;graphics&quot;        &quot;grDevices&quot;      
+## [5] &quot;utils&quot;           &quot;datasets&quot;        &quot;methods&quot;         &quot;base&quot;           
+## 
+## [[2]]
+## [1] &quot;quanteda&quot;        &quot;LexisNexisTools&quot; &quot;stats&quot;           &quot;graphics&quot;       
+## [5] &quot;grDevices&quot;       &quot;utils&quot;           &quot;datasets&quot;        &quot;methods&quot;        
+## [9] &quot;base&quot;           
+## 
+## [[3]]
+##  [1] &quot;dplyr&quot;           &quot;quanteda&quot;        &quot;LexisNexisTools&quot; &quot;stats&quot;          
+##  [5] &quot;graphics&quot;        &quot;grDevices&quot;       &quot;utils&quot;           &quot;datasets&quot;       
+##  [9] &quot;methods&quot;         &quot;base&quot;</code></pre>
 </div>
 <div id="downloading-the-data" class="section level2">
 <h2>1. Downloading the Data</h2>
@@ -183,17 +207,121 @@ Options (i. e., no cover page etc.).</p>
 <h3>a) Read the Data</h3>
 <p>Use <code>LexisNexisTools</code>’ <code>lnt_read()</code> function to
 read the DOCX. Inspect the structure of the output.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>apfelwein_articles <span class="ot">&lt;-</span> <span class="fu">lnt_read</span>(<span class="at">x =</span> <span class="st">&quot;data/aebblwoi_artikel.DOCX&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>apfelwein_articles</span></code></pre></div>
+<pre><code>## Object of class &#39;LNToutput&#39;:
+## 141 articles
+## 1346 paragraphs
+## # A tibble: 141 × 10
+##      ID Source_File  Newspaper Date       Length Section Author Edition Headline
+##   &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;  &lt;lgl&gt;   &lt;chr&gt;   
+## 1     1 data/aebblw… &quot;&quot;        2024-12-04 540 w… LOKALE… &lt;NA&gt;   NA      Vom Apf…
+## 2     2 data/aebblw… &quot;&quot;        2024-12-04 536 w… LOKALE… &lt;NA&gt;   NA      Vom Apf…
+## 3     3 data/aebblw… &quot;NÖN Nie… 2024-12-04 254 w… S. 36   &lt;NA&gt;   NA      Silber …
+## 4     4 data/aebblw… &quot;&quot;        2024-12-07 280 w… LOKALR… &lt;NA&gt;   NA      Früchte…
+## 5     5 data/aebblw… &quot;&quot;        2024-11-28 647 w… LOKALE… &lt;NA&gt;   NA      Geschen…
+## 6     6 data/aebblw… &quot;&quot;        2024-12-12 459 w… LOKALE… &lt;NA&gt;   NA      Struktu…
+## # ℹ 135 more rows
+## # ℹ 1 more variable: Graphic &lt;lgl&gt;
+## # A tibble: 141 × 2
+##      ID Article                                                                 
+##   &lt;int&gt; &lt;chr&gt;                                                                   
+## 1     1 &quot;VON SABINE NEUGEBAUER\nRiedelbach- Zwei der Gruppen von Hauptschülern …
+## 2     2 &quot;VON SABINE NEUGEBAUER\nRiedelbach- Zwei der Gruppen von Hauptschülern …
+## 3     3 &quot; Im Rahmen der Frankfurter Buchmesse wurde das Fachbuch ,,Cider, Most …
+## 4     4 &quot;Friedberg (pm). Eigentlich war es anders geplant: Als Dank, dass der W…
+## 5     5 &quot;Langen – Mit einem Glas Apfelwein in der Hand spricht Chris Muth einen…
+## 6     6 &quot;Kelsterbach – Die Streuobstwiese zwischen Mörfelder Straße und Länger …
+## # ℹ 135 more rows
+## # A tibble: 1,346 × 3
+##   Art_ID Par_ID Paragraph                                                       
+##    &lt;int&gt;  &lt;int&gt; &lt;chr&gt;                                                           
+## 1      1      1 &quot;VON SABINE NEUGEBAUER&quot;                                         
+## 2      1      2 &quot;Riedelbach- Zwei der Gruppen von Hauptschülern waren im Chemie…
+## 3      1      3 &quot;Da ging es bei der erstgenannten Gruppe um die Herstellung und…
+## 4      1      4 &quot;Bei einem weiteren Versuch verglichen sie, was mit einem Gummi…
+## 5      1      5 &quot;Auch die Vulkangruppe beschäftigte sich nicht nur mit dem Bau …
+## 6      1      6 &quot;Sessel aus Europalette&quot;                                        
+## # ℹ 1,340 more rows</code></pre>
 </div>
 <div id="b-inspect-the-data" class="section level3">
 <h3>b) Inspect the Data</h3>
 <p>Which newspapers are included in the data? How many articles are
 there? How many paragraphs?</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">table</span>(apfelwein_articles<span class="sc">@</span>meta<span class="sc">$</span>Newspaper)</span></code></pre></div>
+<pre><code>## 
+##                                                    
+##                                                 90 
+##                               Aachener Zeitung AAZ 
+##                                                  1 
+##                       Allgemeine Zeitung (Germany) 
+##                                                  1 
+##                                    BILD am Sonntag 
+##                                                  1 
+##                       Bürstädter Zeitung (Germany) 
+##                                                  4 
+##                                   Darmstädter Echo 
+##                                                  2 
+##                                          Dolomiten 
+##                                                  1 
+##                                  Groß-Gerauer Echo 
+##                                                  1 
+##                                     Kölner Express 
+##                                                  1 
+##                                     Kronen Zeitung 
+##                                                  1 
+##                    Lampertheimer Zeitung (Germany) 
+##                                                  4 
+##                               Landauer Neue Presse 
+##                                                  1 
+##                              Main-Spitze (Germany) 
+##                                                  3 
+## Märkische Oderzeitung Frankfurter Stadtbote (Oder) 
+##                                                  1 
+##                      NÖN Niederösterr. Nachrichten 
+##                                                  1 
+##                                    Odenwälder Echo 
+##                                                  6 
+##                                    Rheinische Post 
+##                                                  2 
+##                                 Rüsselsheimer Echo 
+##                                                  3 
+##                Sächsische Zeitung Regionalausgaben 
+##                                                  3 
+##                                 Starkenburger Echo 
+##                                                  4 
+##                       Wiesbadener Kurier (Germany) 
+##                                                 10</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">head</span>(apfelwein_articles<span class="sc">@</span>articles)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##      ID Article                                                                 
+##   &lt;int&gt; &lt;chr&gt;                                                                   
+## 1     1 &quot;VON SABINE NEUGEBAUER\nRiedelbach- Zwei der Gruppen von Hauptschülern …
+## 2     2 &quot;VON SABINE NEUGEBAUER\nRiedelbach- Zwei der Gruppen von Hauptschülern …
+## 3     3 &quot; Im Rahmen der Frankfurter Buchmesse wurde das Fachbuch ,,Cider, Most …
+## 4     4 &quot;Friedberg (pm). Eigentlich war es anders geplant: Als Dank, dass der W…
+## 5     5 &quot;Langen – Mit einem Glas Apfelwein in der Hand spricht Chris Muth einen…
+## 6     6 &quot;Kelsterbach – Die Streuobstwiese zwischen Mörfelder Straße und Länger …</code></pre>
 </div>
 <div id="c-convert-to-data-frame" class="section level3">
 <h3>c) Convert to Data Frame</h3>
 <p>We can easily convert the LNT output into any other popular data
 formats using <code>lnt_convert()</code>. Convert it into a <em>data
 frame</em>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>apfelwein_articles_df <span class="ot">&lt;-</span> <span class="fu">lnt_convert</span>(apfelwein_articles, <span class="at">to =</span> <span class="st">&quot;data.frame&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">head</span>(apfelwein_articles_df)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 11
+##      ID Source_File  Newspaper Date       Length Section Author Edition Headline
+##   &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;  &lt;lgl&gt;   &lt;chr&gt;   
+## 1     1 data/aebblw… &quot;&quot;        2024-12-04 540 w… LOKALE… &lt;NA&gt;   NA      Vom Apf…
+## 2     2 data/aebblw… &quot;&quot;        2024-12-04 536 w… LOKALE… &lt;NA&gt;   NA      Vom Apf…
+## 3     3 data/aebblw… &quot;NÖN Nie… 2024-12-04 254 w… S. 36   &lt;NA&gt;   NA      Silber …
+## 4     4 data/aebblw… &quot;&quot;        2024-12-07 280 w… LOKALR… &lt;NA&gt;   NA      Früchte…
+## 5     5 data/aebblw… &quot;&quot;        2024-11-28 647 w… LOKALE… &lt;NA&gt;   NA      Geschen…
+## 6     6 data/aebblw… &quot;&quot;        2024-12-12 459 w… LOKALE… &lt;NA&gt;   NA      Struktu…
+## # ℹ 2 more variables: Graphic &lt;lgl&gt;, Article &lt;chr&gt;</code></pre>
 </div>
 </div>
 <div id="duplicates-detection" class="section level2">
@@ -205,19 +333,28 @@ included multiple times (<em>duplicates</em>). Luckily,
 <code>LexisNexisTools</code> offers a function to detect such
 duplicates: <code>lnt_similarity()</code>. Use it to identify articles
 that are <em>at least 97 percent</em> similar.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>duplicates <span class="ot">&lt;-</span> <span class="fu">lnt_similarity</span>(<span class="at">LNToutput =</span> apfelwein_articles,</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>                             <span class="at">threshold =</span> <span class="fl">0.97</span>)</span></code></pre></div>
 </div>
 <div id="b-inspect-duplicate-pairs" class="section level3">
 <h3>b) Inspect Duplicate Pairs</h3>
 <p>Use <code>lnt_diff()</code> to manually inspect some duplicate
 pairs.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">lnt_diff</span>(duplicates, <span class="at">min =</span> <span class="fl">0.05</span>, <span class="at">max =</span> <span class="cn">Inf</span>)</span></code></pre></div>
 </div>
 <div id="c-delete-duplicates" class="section level3">
 <h3>c) Delete Duplicates</h3>
 <p>We can now delete the duplicates from the data based on the
 <code>ID</code> variable. To do this, check the following code and
 execute it:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>apfelwein_articles_reduced <span class="ot">&lt;-</span> apfelwein_articles[<span class="sc">!</span>apfelwein_articles<span class="sc">@</span>meta<span class="sc">$</span>ID <span class="sc">%in%</span> duplicates<span class="sc">$</span>ID_duplicate, ]</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>apfelwein_articles_reduced <span class="ot">&lt;-</span> apfelwein_articles[<span class="sc">!</span>apfelwein_articles<span class="sc">@</span>meta<span class="sc">$</span>ID <span class="sc">%in%</span> duplicates<span class="sc">$</span>ID_duplicate, ]</span></code></pre></div>
 <p>How many newspaper articles are left? How many were duplicates?</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">nrow</span>(apfelwein_articles_reduced)</span></code></pre></div>
+<pre><code>## Articles 
+##      107</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">nrow</span>(apfelwein_articles) <span class="sc">-</span> <span class="fu">nrow</span>(apfelwein_articles_reduced)</span></code></pre></div>
+<pre><code>## Articles 
+##       34</code></pre>
 </div>
 </div>
 <div id="subsetting-the-data" class="section level2">
@@ -230,16 +367,340 @@ articles that mention “Frankfurt”.</p>
 <h3>a) Looking up Keywords</h3>
 <p>Use <code>lnt_lookup()</code> to search for keywords in the articles.
 Use it to search for “Frankfurt” in the articles.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">lnt_lookup</span>(apfelwein_articles_reduced, <span class="at">pattern =</span> <span class="st">&quot;Frankfurt&quot;</span>)</span></code></pre></div>
+<pre><code>## $`1`
+## NULL
+## 
+## $`3`
+## NULL
+## 
+## $`4`
+## NULL
+## 
+## $`5`
+## [1] &quot;Frankfurt&quot;
+## 
+## $`6`
+## NULL
+## 
+## $`7`
+## NULL
+## 
+## $`8`
+## [1] &quot;Frankfurt&quot;
+## 
+## $`9`
+## NULL
+## 
+## $`10`
+## NULL
+## 
+## $`11`
+## NULL
+## 
+## $`12`
+## NULL
+## 
+## $`13`
+## NULL
+## 
+## $`14`
+## NULL
+## 
+## $`15`
+## [1] &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot;
+## 
+## $`16`
+## NULL
+## 
+## $`17`
+## NULL
+## 
+## $`18`
+## [1] &quot;Frankfurt&quot; &quot;Frankfurt&quot;
+## 
+## $`19`
+## NULL
+## 
+## $`20`
+## [1] &quot;Frankfurt&quot;
+## 
+## $`21`
+## NULL
+## 
+## $`22`
+## NULL
+## 
+## $`23`
+## NULL
+## 
+## $`24`
+## NULL
+## 
+## $`25`
+## NULL
+## 
+## $`29`
+## NULL
+## 
+## $`30`
+## NULL
+## 
+## $`31`
+## NULL
+## 
+## $`32`
+## NULL
+## 
+## $`33`
+## NULL
+## 
+## $`34`
+## NULL
+## 
+## $`35`
+## [1] &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot;
+## 
+## $`36`
+## [1] &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot;
+## 
+## $`37`
+## NULL
+## 
+## $`38`
+## NULL
+## 
+## $`39`
+## NULL
+## 
+## $`40`
+## NULL
+## 
+## $`41`
+## NULL
+## 
+## $`42`
+## NULL
+## 
+## $`43`
+## NULL
+## 
+## $`44`
+## NULL
+## 
+## $`45`
+## NULL
+## 
+## $`46`
+## NULL
+## 
+## $`47`
+## NULL
+## 
+## $`48`
+## NULL
+## 
+## $`50`
+## NULL
+## 
+## $`51`
+## NULL
+## 
+## $`52`
+## NULL
+## 
+## $`53`
+## [1] &quot;Frankfurt&quot;
+## 
+## $`54`
+## NULL
+## 
+## $`55`
+## NULL
+## 
+## $`56`
+## NULL
+## 
+## $`57`
+## NULL
+## 
+## $`58`
+## NULL
+## 
+## $`59`
+## [1] &quot;Frankfurt&quot;
+## 
+## $`60`
+## [1] &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot;
+## 
+## $`62`
+## NULL
+## 
+## $`63`
+## NULL
+## 
+## $`65`
+## NULL
+## 
+## $`67`
+## NULL
+## 
+## $`69`
+## [1] &quot;Frankfurt&quot; &quot;Frankfurt&quot;
+## 
+## $`70`
+## NULL
+## 
+## $`72`
+## NULL
+## 
+## $`73`
+## [1] &quot;Frankfurt&quot;
+## 
+## $`74`
+## [1] &quot;Frankfurt&quot; &quot;Frankfurt&quot;
+## 
+## $`76`
+## NULL
+## 
+## $`77`
+## NULL
+## 
+## $`78`
+## NULL
+## 
+## $`79`
+## [1] &quot;Frankfurt&quot;
+## 
+## $`80`
+## NULL
+## 
+## $`81`
+## NULL
+## 
+## $`83`
+## NULL
+## 
+## $`84`
+## NULL
+## 
+## $`87`
+## [1] &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot;
+## 
+## $`89`
+## [1] &quot;Frankfurt&quot;
+## 
+## $`92`
+## NULL
+## 
+## $`98`
+## NULL
+## 
+## $`99`
+## NULL
+## 
+## $`101`
+## NULL
+## 
+## $`104`
+## NULL
+## 
+## $`105`
+## NULL
+## 
+## $`106`
+## [1] &quot;Frankfurt&quot; &quot;Frankfurt&quot; &quot;Frankfurt&quot;
+## 
+## $`107`
+## NULL
+## 
+## $`109`
+## NULL
+## 
+## $`111`
+## NULL
+## 
+## $`112`
+## NULL
+## 
+## $`113`
+## NULL
+## 
+## $`116`
+## NULL
+## 
+## $`118`
+## NULL
+## 
+## $`119`
+## NULL
+## 
+## $`120`
+## NULL
+## 
+## $`121`
+## NULL
+## 
+## $`123`
+## NULL
+## 
+## $`124`
+## [1] &quot;Frankfurt&quot;
+## 
+## $`126`
+## NULL
+## 
+## $`127`
+## NULL
+## 
+## $`128`
+## NULL
+## 
+## $`130`
+## NULL
+## 
+## $`131`
+## NULL
+## 
+## $`132`
+## NULL
+## 
+## $`133`
+## NULL
+## 
+## $`134`
+## NULL
+## 
+## $`135`
+## NULL
+## 
+## $`136`
+## NULL
+## 
+## $`137`
+## NULL
+## 
+## $`139`
+## NULL
+## 
+## $`140`
+## [1] &quot;Frankfurt&quot;
+## 
+## $`141`
+## [1] &quot;Frankfurt&quot;</code></pre>
 </div>
 <div id="b-subset-the-data" class="section level3">
 <h3>b) Subset the Data</h3>
 <p>The following code will subset the data to only include articles that
 mention “Frankfurt” (note that this is case sensitive). Understand and
 execute it:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>apfelwein_articles_reduced<span class="sc">@</span>meta<span class="sc">$</span>frankfurt <span class="ot">&lt;-</span> <span class="fu">lnt_lookup</span>(apfelwein_articles_reduced, <span class="at">pattern =</span> <span class="st">&quot;Frankfurt&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>apfelwein_articles_frankfurt <span class="ot">&lt;-</span> apfelwein_articles_reduced[<span class="sc">!</span><span class="fu">sapply</span>(apfelwein_articles_reduced<span class="sc">@</span>meta<span class="sc">$</span>frankfurt, is.null), ]</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>apfelwein_articles_reduced<span class="sc">@</span>meta<span class="sc">$</span>frankfurt <span class="ot">&lt;-</span> <span class="fu">lnt_lookup</span>(apfelwein_articles_reduced, <span class="at">pattern =</span> <span class="st">&quot;Frankfurt&quot;</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>apfelwein_articles_frankfurt <span class="ot">&lt;-</span> apfelwein_articles_reduced[<span class="sc">!</span><span class="fu">sapply</span>(apfelwein_articles_reduced<span class="sc">@</span>meta<span class="sc">$</span>frankfurt, is.null), ]</span></code></pre></div>
 <p>How many articles within the sample mention the word “Frankfurt”?</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">nrow</span>(apfelwein_articles_frankfurt)</span></code></pre></div>
+<pre><code>## Articles 
+##       20</code></pre>
 </div>
 <div id="c-further-describe-the-data" class="section level3">
 <h3>c) Further Describe the Data</h3>
@@ -248,6 +709,25 @@ analyze text data. Convert the data of 3.b) to a <code>quanteda</code>
 corpus (similar to 1.c)), then tokenize it, remove stop words, and
 create a document-feature matrix. Finally, identify the 20 most frequent
 words in the DFM.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>quanteda_corpus <span class="ot">&lt;-</span> <span class="fu">lnt_convert</span>(apfelwein_articles_frankfurt, <span class="at">to =</span> <span class="st">&quot;quanteda&quot;</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>frankfurt_toks <span class="ot">&lt;-</span> <span class="fu">tokens</span>(quanteda_corpus, <span class="at">remove_punct =</span> <span class="cn">TRUE</span>, <span class="at">remove_numbers =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>                            <span class="at">remove_symbols =</span> <span class="cn">TRUE</span>, <span class="at">remove_separators =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>frankfurt_toks <span class="ot">&lt;-</span> <span class="fu">tokens_remove</span>(frankfurt_toks, <span class="fu">stopwords</span>(<span class="at">language =</span> <span class="st">&quot;de&quot;</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>                                                          <span class="at">source =</span> <span class="st">&quot;stopwords-iso&quot;</span>), <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>frankfurt_dfm <span class="ot">&lt;-</span> <span class="fu">dfm</span>(frankfurt_toks)</span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a><span class="fu">topfeatures</span>(frankfurt_dfm, <span class="dv">20</span>)</span></code></pre></div>
+<pre><code>##       frankfurt            euro       apfelwein            link           gäste 
+##              36              28              26              17              17 
+##    pdf-dokument          stehen           stadt          heißen           essen 
+##              16              15              15              15              14 
+##         samstag weihnachtsmarkt            bier          langen        dezember 
+##              12              12              11              10              10 
+##           leute     frankfurter           stand        glühwein          preise 
+##              10              10               9               9               9</code></pre>
 </div>
 </div>
     </section>
